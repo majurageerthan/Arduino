@@ -60,6 +60,7 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+boolean onOrOff =false;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
@@ -67,12 +68,16 @@ void setup() {
   //lcd.begin(cols, rows)
     lcd.begin(7, 4);
   // Print a message to the LCD.
- addToCart();
+ lcd.noDisplay();
+ //addToCart();
   
 }
 
 void loop() {
-
+//turn on .off - 4
+//total price - 5
+//ok - 1
+//cancel - 2
   
    char key = keypad.getKey();
    lcd.setCursor(1, 2);
@@ -83,7 +88,7 @@ void loop() {
   }else if (key=='5'){
     totalPrice(); 
   }else if (key=='4'){
-    addToCart(); 
+    turnOnOff(); 
   }
    
 
@@ -127,14 +132,14 @@ void addToCart(){
 void sucess(){
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("Sucess"); 
+  lcd.print("Product added"); 
 
 }
 
 void no(){
   lcd.clear();
   lcd.home();
-  lcd.print("fails"); 
+  lcd.print("Product canceled"); 
 
 }
 
@@ -147,8 +152,39 @@ void totalPrice(){
  
   lcd.setCursor(1, 4);
   lcd.print("Rs 2400");
+  delay(2000);
+  addToCart();
+}
+
+void welcome(){
+
   
+      lcd.clear();
+      lcd.setCursor(1, 0);
+      lcd.print("Smart  cart");
+      
+      lcd.setCursor(11, 4);
+      lcd.print("WELCOME");
+      lcd.setCursor(1, 4);
+     
+      lcd.print("................");
+     
+       lcd.setCursor(17, 2);
+      lcd.print("UOP Super Market");
+   
+  
+}
+
+void turnOnOff(){
+  if(onOrOff == true){
+    onOrOff = false;
+    lcd.noDisplay();
+  }else{
+    onOrOff = true;
+    lcd.display();
+    welcome();
     
+  }
 }
 
 
